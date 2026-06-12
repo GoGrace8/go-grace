@@ -9,9 +9,13 @@ export default function SetPassword() {
   const [success, setSuccess] = useState(false)
 
   useEffect(() => {
-    // Supabase automatically handles the token from the URL
-    supabase.auth.getSession()
-  }, [])
+  const hashParams = new URLSearchParams(window.location.hash.substring(1))
+  const accessToken = hashParams.get('access_token')
+  const refreshToken = hashParams.get('refresh_token')
+  if (accessToken) {
+    supabase.auth.setSession({ access_token: accessToken, refresh_token: refreshToken })
+  }
+}, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
