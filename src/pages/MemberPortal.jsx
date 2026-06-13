@@ -194,6 +194,7 @@ export default function MemberPortal({ session }) {
         {[
           { id: 'profile', label: '👤 My Profile' },
           { id: 'teams', label: '👥 My Teams' },
+{ id: 'resources', label: '📁 Resources' },
         ].map(tab => (
           <button
             key={tab.id}
@@ -553,12 +554,78 @@ export default function MemberPortal({ session }) {
                 ))}
               </div>
             )}
+            
           </>
         )}
+
+        {/* Resources Tab */}
+        {activeTab === 'resources' && (
+          <div style={{
+            background: 'white', borderRadius: '12px', padding: '1.5rem',
+            marginBottom: '1rem', boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
+          }}>
+            <h3 style={{ margin: '0 0 0.5rem', color: '#111827' }}>Team Resources</h3>
+            <p style={{ color: '#6b7280', fontSize: '0.85rem', marginTop: 0, marginBottom: '1.5rem' }}>
+              Documents and resources shared by your team leaders.
+            </p>
+            {memberTeams.length === 0 ? (
+              <div style={{ textAlign: 'center', padding: '2rem', color: '#9ca3af' }}>
+                <div style={{ fontSize: '3rem' }}>📁</div>
+                <p>You need to join a team to access resources.</p>
+              </div>
+            ) : teamDocuments.length === 0 ? (
+              <div style={{ textAlign: 'center', padding: '2rem', color: '#9ca3af' }}>
+                <div style={{ fontSize: '3rem' }}>📄</div>
+                <p>No documents have been uploaded yet.</p>
+              </div>
+            ) : (
+              memberTeams.map(team => {
+                const docs = teamDocuments.filter(d => d.team_id === team.team_id)
+                if (docs.length === 0) return null
+                return (
+                  <div key={team.team_id} style={{ marginBottom: '1.5rem' }}>
+                    <h4 style={{ margin: '0 0 0.75rem', color: '#374151', fontSize: '0.95rem' }}>
+                      {team.teams.name}
+                    </h4>
+                    {docs.map(doc => (
+                      <a key={doc.id} href={doc.file_url} target="_blank" rel="noopener noreferrer"
+                        style={{
+                          display: 'flex', alignItems: 'center', gap: '0.75rem',
+                          padding: '0.75rem', background: '#f9fafb',
+                          borderRadius: '8px', marginBottom: '0.5rem',
+                          textDecoration: 'none', color: '#111827',
+                          border: '1px solid #e5e7eb'
+                        }}
+                      >
+                        <span style={{ fontSize: '1.5rem' }}>📄</span>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontWeight: '500' }}>{doc.name}</div>
+                          <div style={{ fontSize: '0.75rem', color: '#9ca3af' }}>
+                            {new Date(doc.uploaded_at).toLocaleDateString('en-GB', {
+                              day: 'numeric', month: 'short', year: 'numeric'
+                            })}
+                          </div>
+                        </div>
+                        <span style={{
+                          fontSize: '0.8rem', color: '#1a56db',
+                          background: '#eff6ff', padding: '0.25rem 0.75rem',
+                          borderRadius: '999px'
+                        }}>Download</span>
+                      </a>
+                    ))}
+                  </div>
+                )
+              })
+            )}
+          </div>
+        )}
+
       </div>
     </div>
   )
 }
+
+
 
 const labelStyle = {
   display: 'block',
