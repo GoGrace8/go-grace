@@ -5,6 +5,7 @@ import Login from './pages/Login'
 import AdminPanel from './pages/AdminPanel'
 import MemberPortal from './pages/MemberPortal'
 import IntakeForm from './pages/IntakeForm'
+import TeamPage from './pages/TeamPage'
 
 function App() {
   const [session, setSession] = useState(null)
@@ -55,6 +56,7 @@ function App() {
         <Route path="/portal" element={session ? <MemberPortal session={session} /> : <Navigate to="/login" />} />
         <Route path="/intake" element={<IntakeForm />} />
         <Route path="*" element={<Navigate to={home} />} />
+        <Route path="/teams" element={session ? <TeamPage session={session} /> : <Navigate to="/login" />} />
       </Routes>
     </BrowserRouter>
   )

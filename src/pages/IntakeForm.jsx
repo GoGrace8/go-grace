@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { supabase } from '../supabaseClient'
 
@@ -9,6 +10,7 @@ const getGroupAssignment = (age) => {
 }
 
 export default function IntakeForm() {
+  const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState(null)
@@ -124,10 +126,20 @@ export default function IntakeForm() {
   )
 
   return (
-    <div style={{ background: '#f0f4f8', minHeight: '100vh', padding: '2rem' }}>
+    <div style={{ background: '#f0f4f8', minHeight: '100vh', padding: '2rem', position: 'relative' }}>
       <div style={{ maxWidth: '600px', margin: '0 auto' }}>
 
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+          <button
+            onClick={() => navigate('/admin')}
+            style={{
+              position: 'absolute', top: '1rem', left: '1rem',
+              background: 'none', border: 'none', color: '#1a56db',
+              cursor: 'pointer', fontSize: '0.9rem', textDecoration: 'underline'
+            }}
+          >
+            ← Back to Admin
+          </button>
           <h1 style={{ color: '#1a56db', margin: 0 }}>Go Grace</h1>
           <p style={{ color: '#6b7280' }}>New Member Registration</p>
         </div>
@@ -145,7 +157,6 @@ export default function IntakeForm() {
 
           <div style={cardStyle}>
             <h3 style={headingStyle}>Personal Details</h3>
-
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
               <div>
                 <label style={labelStyle}>First Name</label>
@@ -156,17 +167,14 @@ export default function IntakeForm() {
                 <input name="last_name" value={form.last_name} onChange={handleChange} required style={inputStyle} />
               </div>
             </div>
-
             <div style={{ marginTop: '1rem' }}>
               <label style={labelStyle}>Email Address</label>
               <input name="email" type="email" value={form.email} onChange={handleChange} required style={inputStyle} />
             </div>
-
             <div style={{ marginTop: '1rem' }}>
               <label style={labelStyle}>Phone Number</label>
               <input name="phone" type="tel" value={form.phone} onChange={handleChange} style={inputStyle} />
             </div>
-
             <div style={{ marginTop: '1rem' }}>
               <label style={labelStyle}>Date of Birth</label>
               <input name="date_of_birth" type="date" value={form.date_of_birth} onChange={handleChange} style={inputStyle} />

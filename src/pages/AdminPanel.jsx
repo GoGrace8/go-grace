@@ -1,3 +1,4 @@
+import AdminNav from '../components/AdminNav'
 import { useState, useEffect } from 'react'
 import { supabase } from '../supabaseClient'
 
@@ -233,8 +234,10 @@ const sendWelcomeEmail = async (member) => {
     return matchesSearch && matchesFilter
   })
 
-  return (
-    <div style={{ display: 'flex', height: '100vh', fontFamily: 'sans-serif' }}>
+return (
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', fontFamily: 'sans-serif' }}>
+      <AdminNav session={session} />
+      <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
 
       {/* Sidebar */}
       <div style={{
@@ -836,6 +839,7 @@ const sendWelcomeEmail = async (member) => {
           </div>
         )}
       </div>
+    </div>
     </div>
   )
 }
